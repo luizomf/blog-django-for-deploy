@@ -1,0 +1,14 @@
+# Clonando o repositório para a pasta blog
+git clone https://github.com/luizomf/blog-django-for-deploy.git ~/blog
+
+# Acesse a pasta blog
+cd ~/blog
+
+# Crie o ambiente virtual
+python3.8 -m venv venv
+# Ative o ambiente virtual
+. venv/bin/activate
+# Instale o requirements.txt
+pip install -r requirements.txt
+
+

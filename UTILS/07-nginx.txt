@@ -1,3 +1,72 @@
+# Instale o nginx
+sudo apt install nginx -y
+
+# NESTE ARQUIVO, MODIFIQUE TODAS AS OCORRÊNCIAS DE temp.otaviomiranda.com.br
+# PARA SEU DOMÍNIO
+
+# Crie um server
+sudo nano /etc/nginx/sites-enabled/temp.otaviomiranda.com.br
+
+# PARA HTTP (:80)
+# (Se já configurou o certbot no seu domínio, use a opção abaixo desta)
+server {
+	listen 80;
+	listen [::]:80;
+
+	index index.html index.htm index.nginx-debian.html index.php;
+
+	server_name temp.otaviomiranda.com.br;
+
+	location /static/ {
+		root /home/luizotavio/blog;
+	}
+
+	location /media {
+		alias /home/luizotavio/blog/media/;
+	}
+
+	location / {
+		include proxy_params;
+		proxy_pass http://unix:/run/gunicorn_blog.sock;
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+
+	location ~ /\. {
+		access_log off;
+		log_not_found off;
+		deny all;
+	}
+
+	gzip on;
+	gzip_disable "msie6";
+
+	gzip_comp_level 6;
+	gzip_min_length 1100;
+	gzip_buffers 4 32k;
+	gzip_proxied any;
+	gzip_types
+		text/plain
+		text/css
+		text/js
+		text/xml
+		text/javascript
+		application/javascript
+		application/x-javascript
+		application/json
+		application/xml
+		application/rss+xml
+		image/svg+xml;
+
+	access_log off;
+	#access_log  /var/log/nginx/temp.otaviomiranda.com.br-access.log;
+	error_log   /var/log/nginx/temp.otaviomiranda.com.br-error.log;
+}
+
+# PARA HTTPS (:443)
+# (APENAS SE VOCÊ CONFIGUROU O CERTBOT NO SEU DOMÍNIO)
 server {
 	listen 80;
 	listen [::]:80;
@@ -39,16 +108,16 @@ server {
 
 	location = /favicon.ico { access_log off; log_not_found off; }
 	location /static/ {
-			root /home/luizotavio/agenda;
+		root /home/luizotavio/blog;
 	}
 
 	location /media {
-			alias /home/luizotavio/agenda/media/;
+		alias /home/luizotavio/blog/media/;
 	}
 
 	location / {
-			include proxy_params;
-			proxy_pass http://unix:/run/gunicorn_blog.sock;
+		include proxy_params;
+		proxy_pass http://unix:/run/gunicorn_blog.sock;
 	}
 
 	# deny access to .htaccess files, if Apache's document root
@@ -84,9 +153,10 @@ server {
 		application/rss+xml
 		image/svg+xml;
 
-  access_log off;
+	  access_log off;
 	#access_log  /var/log/nginx/temp.otaviomiranda.com.br-access.log;
-  error_log   /var/log/nginx/temp.otaviomiranda.com.br-error.log;
-
-	include /etc/nginx/common/protect.conf;
+	error_log   /var/log/nginx/temp.otaviomiranda.com.br-error.log;
 }
+
+# Remova arquivo default já configurado pelo nginx
+sudo rm -Rf /etc/nginx/sites-enabled/default && sudo systemctl restart nginx

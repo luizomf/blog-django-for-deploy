@@ -1,0 +1,4 @@
+# No seu computador
+# (Para windows, utilize o Git Bash do Git SCM)
+ssh-keygen -f ~/.ssh/deploy_blog_rsa -t rsa -b 4096
+cat ~/.ssh/deploy_blog_rsa.pub

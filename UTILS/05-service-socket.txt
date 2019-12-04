@@ -1,0 +1,44 @@
+# Criando o arquivo gunicorn_blog.socket
+sudo nano /etc/systemd/system/gunicorn_blog.socket
+
+# Cole
+[Unit]
+Description=gunicorn blog socket
+
+[Socket]
+ListenStream=/run/gunicorn_blog.sock
+
+[Install]
+WantedBy=sockets.target
+
+# Criando o arquivo gunicorn_blog.service
+sudo nano /etc/systemd/system/gunicorn_blog.service
+
+# Cole e edite
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn_blog.socket
+After=network.target
+
+[Service]
+User=__USUARIO__
+Group=www-data
+WorkingDirectory=/home/__USUARIO__/__PASTA_DO_PROJETO__
+ExecStart=/home/__USUARIO__/__PASTA_DO_PROJETO__/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn_blog.sock \
+          __PASTA_DO_ARQUIVO_WSGI__.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+# Ativando
+sudo systemctl start gunicorn_blog.socket
+sudo systemctl enable gunicorn_blog.socket
+
+# Checando
+sudo systemctl status gunicorn_blog.socket
+curl --unix-socket /run/gunicorn_blog.sock localhost
+sudo systemctl status gunicorn_blog
+

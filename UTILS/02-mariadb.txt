@@ -1,0 +1,18 @@
+# Crie um container com mariadb
+sudo docker run --restart always -d --name mariadb -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD='uma senha forte' mariadb
+
+# Acessando o container e criando o usuário e a base de dados
+docker exec -it mariadb bash
+
+# Acessando a base de dados
+mysql -uroot -p
+(DIGITE A SENHA DO ROOT)
+
+# Criando a base de dados e o usuário da base de dados
+CREATE database blogdjango;
+CREATE USER userdjango@'%' IDENTIFIED BY 'uma senha forte';
+GRANT ALL PRIVILEGES ON blogdjango.* TO userdjango@'%';
+FLUSH PRIVILEGES;
+exit
+exit

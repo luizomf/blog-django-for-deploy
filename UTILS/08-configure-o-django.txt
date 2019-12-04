@@ -1,0 +1,12 @@
+# Agora você precisa alterar algumas coisas no projeto django
+# Como DEBUG e ALLOWED_HOSTS
+nano ~/blog/blog/local_settings.py
+
+# Também descomente o trecho
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_SSL_REDIRECT = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+# Reinicie o servidor
+sudo systemctl restart nginx && sudo systemctl restart gunicorn_blog

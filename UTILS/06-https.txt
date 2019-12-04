@@ -1,0 +1,14 @@
+# Gere o arquivo dhparam.pem
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+# Instale o certbot
+sudo apt install certbot
+
+# Pare o servidor NGINX
+sudo systemctl stop nginx
+
+# Crie um certificado para seu domínio
+sudo certbot certonly --standalone -d temp.otaviomiranda.com.br
+
+# Migre o server NGINX para HTTPS ao invés de HTTP
+# (Ver arquivo 07-nginx.txt)

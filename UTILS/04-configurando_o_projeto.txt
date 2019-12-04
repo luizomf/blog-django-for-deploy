@@ -1,0 +1,16 @@
+# Existe um arquivo chamado local_settings_EXAMPLE.py dentro de blog/blog.
+# Copie este arquivo para ~/blog/blog/local_settings.py
+cp ~/blog/blog/local_settings_EXAMPLE.py ~/blog/blog/local_settings.py
+
+# Acesse este arquivo para configurarmos
+nano ~/blog/blog/local_settings.py
+(Depois de configurado, como mostrei no vídeo)
+
+# Faça as migrações
+python ~/blog/manage.py migrate
+
+# Teste para ver se não há erros
+python ~/blog/manage.py runserver
+
+# Carregue os dados
+python ~/blog/manage.py loaddata db.json
