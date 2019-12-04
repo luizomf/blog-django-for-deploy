@@ -1,0 +1,6 @@
+Django==3.0
+django-axes==5.0.20
+django-crispy-forms==1.8.1
+mysqlclient==1.4.6
+Pillow==6.2.1
+requests==2.22.0

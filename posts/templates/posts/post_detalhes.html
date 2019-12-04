@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}{{ post.titulo_post|title }} | {% endblock %}
+
+{% block conteudo %}
+<!-- POST -->
+<div class="row pt-5">
+    <div class="col-xl"></div>
+    <div class="col-xl-8 text-center">
+        <h2>{{ post.titulo_post }}</h2>
+        <h5>{{ post.excerto_post }}</h5>
+        <p class="text-muted mt-4">
+            <small>
+                {{ post.autor_post }} | {{ post.data_post }} | {{ post.categoria_post }}
+            </small>
+        </p>
+    </div>
+    <div class="col-xl"></div>
+</div>
+
+<div class="row pt-5">
+    <div class="col-xl"></div>
+    <div class="col-xl-8">
+
+        {% if post.imagem_post %}
+        <img class="img-fluid pb-5 " src="{{ post.imagem_post.url }}" alt="{{ post.titulo_post }}">
+        {% endif %}
+
+        {{ post.conteudo_post|safe }}
+
+    </div>
+    <div class="col-xl"></div>
+</div>
+
+{% if comentarios %}
+<div class="row pt-5">
+    <div class="col-xl"></div>
+    <div class="col-xl-8">
+        <h2 class="my-3">Comentários ({{ comentarios.count }})</h2>
+
+        {% for comentario in comentarios %}
+        <h5 class="mb-2 mt-5">{{ comentario.nome_comentario }} disse:</h5>
+        <small class="text-muted">{{ comentario.data_comentario }}</small>
+        <p class="mb-1">{{ comentario.comentario }}</p>
+        {% endfor %}
+
+    </div>
+    <div class="col-xl"></div>
+</div>
+{% endif %}
+
+
+<div class="row pt-5">
+    <div class="col-xl"></div>
+    <div class="col-xl-8">
+        <h2 class="my-3">Deixe um comentário</h2>
+
+        <form method="POST" action="#envia_comentario">
+            {% csrf_token %}
+
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+            {% endfor %}
+
+            {% for visible_field in form.visible_fields %}
+                {{ visible_field|as_crispy_field }}
+            {% endfor %}
+
+            <div class="g-recaptcha" data-sitekey="6Led2rAUAAAAAKp1qbTkRxi4ZaXJhi8WIszg6DJK"></div>
+            <br/>
+
+            {% include 'parciais/_messages.html' %}
+            <input id="envia_comentario" type="submit" class="btn btn-primary" value="Enviar">
+        </form>
+    </div>
+    <div class="col-xl"></div>
+</div>
+<!-- POST -->
+
+{% endblock %}
