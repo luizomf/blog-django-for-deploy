@@ -9,15 +9,15 @@ services:
       - --default-authentication-plugin=mysql_native_password
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --innodb_force_recovery=0
     volumes: 
-      - ~/.MySQLDBData/mysqlonly/mysql:/var/lib/mysql
+      - ~/.MySQLDBData/mysqlonly/mysql_blog_django:/var/lib/mysql
     ports:
       - 3306:3306
       # - 27018:3306
     environment:
-    
       MYSQL_ROOT_PASSWORD: senha
-      # MYSQL_DATABASE: blog_django
-      # MYSQL_USER: user
-      # MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: blog_django
+      MYSQL_USER: blog_django_user
+      MYSQL_PASSWORD: senha
 
