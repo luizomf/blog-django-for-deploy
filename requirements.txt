@@ -7,7 +7,7 @@ flake8==3.8.4
 gunicorn==20.0.4
 mypy==0.782
 mysqlclient==2.0.1
-pillow==7.2.0
+pillow==9.0.1
 pip-chill==1.0.0
 pylint==2.6.0
 requests==2.24.0
